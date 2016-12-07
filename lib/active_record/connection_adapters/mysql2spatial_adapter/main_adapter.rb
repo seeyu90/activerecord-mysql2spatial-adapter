@@ -124,7 +124,7 @@ module ActiveRecord
             if current_index_ != row_[:Key_name]
               next if row_[:Key_name] == 'PRIMARY' # skip the primary key
               current_index_ = row_[:Key_name]
-              indexes_ << ::RGeo::ActiveRecord::SpatialIndexDefinition.new(row_[:Table], row_[:Key_name], row_[:Non_unique] == 0, [], [], row_[:Index_type] == 'SPATIAL')
+              indexes_ << ::RGeo::ActiveRecord::SpatialIndexDefinition.new(row_[:Table], row_[:Key_name], row_[:Non_unique] == 0, [], [], [], nil, row_[:Index_type] == 'SPATIAL')
             end
             last_index_ = indexes_.last
             last_index_.columns << row_[:Column_name]
