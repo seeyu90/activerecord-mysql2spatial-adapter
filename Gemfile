@@ -31,14 +31,12 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-;
 
+source 'https://rubygems.org'
 
-source "https://rubygems.org"
-
-gem 'rgeo-activerecord', '~> 2.0'
+gem 'rgeo-activerecord', '~> 5.0'
 gem 'mysql2', '>= 0.2.13'
-gem 'activerecord', '~> 4.2'
+gem 'activerecord', '~= 5.0'
 
 group(:test) do
   gem 'rake', '>= 0.9.2'

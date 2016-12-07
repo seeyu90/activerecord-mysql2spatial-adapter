@@ -31,7 +31,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-;
 
 
 # :stopdoc:
@@ -41,20 +40,14 @@ module ActiveRecord
     module Mysql2SpatialAdapter
       class MainAdapter < ConnectionAdapters::Mysql2Adapter
 
-        NATIVE_DATABASE_TYPES = Mysql2Adapter::NATIVE_DATABASE_TYPES.merge(:spatial => {:name => "geometry"})
+        NATIVE_DATABASE_TYPES = Mysql2Adapter::NATIVE_DATABASE_TYPES.merge(spatial: { name: 'geometry' })
 
 
         def initialize(*args_)
           super
-          # Rails 3.2 way of defining the visitor: do so in the constructor
           if defined?(@visitor) && @visitor
             @visitor = ::Arel::Visitors::MySQL2Spatial.new(self)
           end
-        end
-
-
-        def set_rgeo_factory_settings(factory_settings_)
-          @rgeo_factory_settings = factory_settings_
         end
 
 
@@ -73,16 +66,16 @@ module ActiveRecord
         end
 
 
-        def quote(value_, column_=nil)
+        def quote(value_, column_ = nil)
           if ::RGeo::Feature::Geometry.check_type(value_)
-            "GeomFromWKB(0x#{::RGeo::WKRep::WKBGenerator.new(:hex_format => true).generate(value_)},#{value_.srid})"
+            "GeomFromWKB(0x#{::RGeo::WKRep::WKBGenerator.new(hex_format: true).generate(value_)},#{value_.srid})"
           else
             super
           end
         end
 
 
-        def type_to_sql(type_, limit_=nil, precision_=nil, scale_=nil)
+        def type_to_sql(type_, limit_ = nil, precision_ = nil, scale_ = nil)
           if (info_ = spatial_column_constructor(type_.to_sym))
             type_ = limit_[:type] || type_ if limit_.is_a?(::Hash)
             type_ = 'geometry' if type_.to_s == 'spatial'
@@ -92,9 +85,9 @@ module ActiveRecord
         end
 
 
-        def add_index(table_name_, column_name_, options_={})
+        def add_index(table_name_, column_name_, options_ = {})
           if options_[:spatial]
-            index_name_ = index_name(table_name_, :column => Array(column_name_))
+            index_name_ = index_name(table_name_, column: Array(column_name_))
             if ::Hash === options_
               index_name_ = options_[:name] || index_name_
             end
@@ -105,22 +98,22 @@ module ActiveRecord
         end
 
 
-        def columns(table_name_, name_=nil)
+        def columns(table_name_, name_ = nil)
           result_ = @connection.query "SHOW FULL FIELDS FROM #{quote_table_name(table_name_)}"
           columns_ = []
-          result_.each(:symbolize_keys => true, :as => :hash) do |field_|
-            columns_ << SpatialColumn.new(@rgeo_factory_settings, table_name_.to_s,
-              field_[:Field], field_[:Default], lookup_cast_type(field_[:Type]), field_[:Type], field_[:Null] == "YES", field_[:Collation], field_[:Extra])
+          result_.each(symbolize_keys: true, as: :hash) do |field_|
+            type_metadata = fetch_type_metadata(field_[:Type], field_[:Extra])
+            columns_ << SpatialColumn.new(field_[:Field], field_[:Default], type_metadata, field_[:Null] == 'YES', field_[:Collation], field_[:Extra])
           end
           columns_
         end
 
 
-        def indexes(table_name_, name_=nil)
+        def indexes(table_name_, name_ = nil)
           indexes_ = []
           current_index_ = nil
           result_ = execute("SHOW KEYS FROM #{quote_table_name(table_name_)}", name_)
-          result_.each(:symbolize_keys => true, :as => :hash) do |row_|
+          result_.each(symbolize_keys: true, as: :hash) do |row_|
             if current_index_ != row_[:Key_name]
               next if row_[:Key_name] == 'PRIMARY' # skip the primary key
               current_index_ = row_[:Key_name]
@@ -138,12 +131,11 @@ module ActiveRecord
 
         def initialize_type_map(m)
           super
-          register_class_with_limit m, %r(geometry)i, Type::Spatial
+          register_class_with_limit m, %r(geometry)i, ActiveModel::Type::Spatial
           m.alias_type %r(point)i, 'geometry'
           m.alias_type %r(linestring)i, 'geometry'
           m.alias_type %r(polygon)i, 'geometry'
         end
-
 
       end
     end

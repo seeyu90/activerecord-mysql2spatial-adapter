@@ -31,24 +31,19 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-;
+
 
 # :stopdoc:
 
 module ActiveRecord
   module ConnectionAdapters
     module Mysql2SpatialAdapter
-      class SpatialColumn < ConnectionAdapters::Mysql2Adapter::Column
+      class SpatialColumn < ConnectionAdapters::MySQL::Column
 
-        FACTORY_SETTINGS_CACHE = {}
-
-        def initialize(factory_settings_, table_name_, name_, default_, cast_type_ = nil, sql_type_ = nil, null_ = true, collation_ = nil, extra_ = "")
-          super(name_, default_, cast_type_, sql_type_, null_, collation_, false, extra_)
-          if type == :spatial
-            cast_type.set_geo_params(factory_settings_, table_name_, ::RGeo::ActiveRecord.geometric_type_from_name(sql_type_))
-          end
-          FACTORY_SETTINGS_CACHE[factory_settings_.object_id] = factory_settings_
+        def initialize(name_, default_, sql_type_metadata_ = nil, null_ = true, collation_ = nil, extra_ = '')
+          super(name_, default_, sql_type_metadata_, null_, collation_, false, extra_)
         end
+
       end
     end
   end

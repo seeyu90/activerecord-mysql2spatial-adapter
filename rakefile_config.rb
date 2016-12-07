@@ -31,7 +31,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-;
+
 
 RAKEFILE_CONFIG = {
   :product_visible_name => 'MySQL2 Spatial ActiveRecord Adapter',

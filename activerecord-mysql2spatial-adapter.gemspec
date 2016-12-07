@@ -33,23 +33,22 @@
 # -----------------------------------------------------------------------------
 ;
 
-::Gem::Specification.new do |s_|
-  s_.name = 'activerecord-mysql2spatial-adapter'
-  s_.summary = 'An ActiveRecord adapter for MySQL Spatial Extensions, based on RGeo and the mysql2 gem.'
-  s_.description = "This is an ActiveRecord connection adapter for MySQL Spatial Extensions. It is based on the stock MySQL2 adapter, but provides built-in support for spatial columns. It uses the RGeo library to represent spatial data in Ruby."
-  s_.version = "#{::File.read('Version').strip}.nonrelease"
-  s_.author = 'Daniel Azuma'
-  s_.email = 'dazuma@gmail.com'
-  s_.homepage = "http://dazuma.github.com/activerecord-mysql2spatial-adapter"
-  s_.rubyforge_project = 'virtuoso'
-  s_.required_ruby_version = '>= 1.9.3'
-  s_.files = ::Dir.glob("lib/**/*.rb") +
-    ::Dir.glob("test/**/*.rb") +
-    ::Dir.glob("*.rdoc") +
+::Gem::Specification.new do |spec|
+  spec.name = 'activerecord-mysql2spatial-adapter'
+  spec.summary = 'An ActiveRecord adapter for MySQL Spatial Extensions, based on RGeo and the mysql2 gem.'
+  spec.description = 'This is an ActiveRecord connection adapter for MySQL Spatial Extensions. It is based on the stock MySQL2 adapter, but provides built-in support for spatial columns. It uses the RGeo library to represent spatial data in Ruby.'
+  spec.version = "#{::File.read('Version').strip}"
+  spec.authors = ['Daniel Azuma', 'fjl82']
+  spec.homepage = 'https://github.com/fjl82/activerecord-mysql2spatial-adapter'
+  spec.rubyforge_project = 'virtuoso'
+  spec.required_ruby_version = '>= 1.9.3'
+  spec.files = ::Dir.glob('lib/**/*.rb') +
+    ::Dir.glob('test/**/*.rb') +
+    ::Dir.glob('*.rdoc') +
     ['Version']
-  s_.extra_rdoc_files = ::Dir.glob("*.rdoc")
-  s_.test_files = ::Dir.glob("test/**/tc_*.rb")
-  s_.platform = ::Gem::Platform::RUBY
-  s_.add_dependency('rgeo-activerecord', '~> 2.0')
-  s_.add_dependency('mysql2', '>= 0.2.13', '< 0.4')
+  spec.extra_rdoc_files = ::Dir.glob('*.rdoc')
+  spec.test_files = ::Dir.glob('test/**/tc_*.rb')
+  spec.platform = ::Gem::Platform::RUBY
+  spec.add_dependency('rgeo-activerecord', '~> 5.0')
+  spec.add_dependency('mysql2', '~> 0.4.0')
 end

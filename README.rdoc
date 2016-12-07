@@ -1,6 +1,6 @@
-== MySQL2 Spatial \ActiveRecord Adapter
+== MySQL2 Spatial ActiveRecord Adapter
 
-The MySQL2 Spatial \ActiveRecord Adapter is an \ActiveRecord connection
+The MySQL2 Spatial ActiveRecord Adapter is an ActiveRecord connection
 adapter based on the standard mysql2 adapter. It extends the standard
 adapter to provide support for spatial columns and indexes in MySQL,
 using the {RGeo}[http://github.com/dazuma/rgeo] library to represent
@@ -32,7 +32,7 @@ Examples:
 
 === Spatial Attributes
 
-When this adapter is in use, spatial attributes in your \ActiveRecord
+When this adapter is in use, spatial attributes in your ActiveRecord
 objects will have RGeo geometry values. You can set spatial attributes
 either to RGeo geometry objects, or to strings in WKT (well-known text)
 format, which the adapter will automatically convert to geometry objects.
@@ -40,11 +40,11 @@ format, which the adapter will automatically convert to geometry objects.
 Spatial objects in RGeo are tied to a factory that specifies the
 coordinate system as well as other behaviors of the object. You must
 therefore specify a factory for each spatial column (attribute) in your
-\ActiveRecord class. You can either set an explicit factory for a specific
+ActiveRecord class. You can either set an explicit factory for a specific
 column, or provide a factory generator that will yield the appropriate
 factory for the table's spatial columns based on their types. For the
 former, call the <tt>set_rgeo_factory_for_column</tt> class method on your
-\ActiveRecord class. For the latter, set the rgeo_factory_generator class
+ActiveRecord class. For the latter, set the rgeo_factory_generator class
 attribute. This generator should understand at least the <tt>:srid</tt>
 options, which will be provided based on the SRID embedded in the value
 itself, since MySQL does not support SRID or dimension constraints on
@@ -98,20 +98,26 @@ write more complex queries in SQL.
 
 This adapter has the following requirements:
 
-* Ruby 1.8.7 or later. Ruby 1.9.2 or later preferred.
-* MySQL server 5.0 or later required for spatial extensions.
-* \ActiveRecord 3.0.3 or later. Earlier versions will not work.
-  Should be compatible with Rails versions through 3.2.x.
-* mysql2 gem 0.2.13 or later.
-* rgeo gem 0.3.15 or later.
-* rgeo-activerecord gem 0.4.5 or later.
+* Ruby 1.9.3 or later.
+* MySQL server 5.5 or later, or equivalent MariaDB, required for spatial extensions.
+* ActiveRecord 5.0.x.
+* mysql2 gem 0.4 or later.
+* rgeo 0.3.20 or later.
+* rgeo-activerecord 5.0 or later.
+
+Use the branch 'activerecord-4.2' for AR4.2 and mysql2 0.3.x
 
 Install this adapter as a gem:
 
   gem install activerecord-mysql2spatial-adapter
 
+Install with bundler:
+
+  gem 'activerecord-mysql2spatial-adapter', github: 'fjl82/activerecord-mysql2spatial-adapter'
+
 See the README for the "rgeo" gem, a required dependency, for further
-installation information.
+installation information. The rgeo gem has some binary dependencies that
+must be installed through the operating system's package manager.
 
 === Basic Setup
 
@@ -147,26 +153,11 @@ properly, and your test tables are created as InnoDB. The workaround is
 to use the <tt>:sql</tt> dump format. This has been reported as a bug in
 Rails as of Rails 3.0.3, so we hope it will get rectified at some point.
 
-=== Development and support
-
-Documentation is available at http://dazuma.github.com/activerecord-mysql2spatial-adapter/rdoc
-
-Source code is hosted on Github at http://github.com/dazuma/activerecord-mysql2spatial-adapter
-
-Contributions are welcome. Fork the project on Github.
-
-Report bugs on Github issues at http://github.org/dazuma/activerecord-mysql2spatial-adapter/issues
-
-Support available on the rgeo-users google group at http://groups.google.com/group/rgeo-users
-
-Contact the author at dazuma at gmail dot com.
-
 === Acknowledgments
 
 The Mysql2Spatial Adapter and its supporting libraries (including RGeo)
 are written by Daniel Azuma (http://www.daniel-azuma.com).
-
-Development is supported by Pirq. (http://www.pirq.com).
+ActiveRecord 4.2 and 5.0 compatibility by fjl82.
 
 This adapter implementation owes some debt to the spatial_adapter plugin
 (http://github.com/fragility/spatial_adapter). Although we made a few
@@ -176,6 +167,7 @@ source gave us a head start on the implementation.
 === License
 
 Copyright 2010-2012 Daniel Azuma
+Copyright 2015-2017 fjl82
 
 All rights reserved.
 

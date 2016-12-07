@@ -31,7 +31,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-;
 
 
 require 'rgeo/active_record'
@@ -43,12 +42,10 @@ require 'active_record/connection_adapters/mysql2_adapter'
 
 module ActiveRecord
 
-
   # ActiveRecord looks for the mysql2spatial_connection factory method in
   # this class.
 
   class Base
-
 
     # Create a mysql2spatial connection adapter.
 
@@ -62,23 +59,17 @@ module ActiveRecord
       ::ActiveRecord::ConnectionAdapters::Mysql2SpatialAdapter::MainAdapter.new(client_, logger, options_, config_)
     end
 
-
   end
 
 
-  # All ActiveRecord adapters go in this namespace.
   module ConnectionAdapters
-
-    # The Mysql2Spatial adapter
     module Mysql2SpatialAdapter
 
       # The name returned by the adapter_name method of this adapter.
       ADAPTER_NAME = 'Mysql2Spatial'.freeze
 
     end
-
   end
-
 
 end
 
