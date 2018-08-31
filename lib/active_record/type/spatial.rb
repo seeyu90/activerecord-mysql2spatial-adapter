@@ -34,8 +34,8 @@ module ActiveModel
               factory = spatial_store.factory(srid: srid)
               ::RGeo::WKRep::WKBParser.new(factory).parse(value[8..-1]) rescue nil
             else
-              factory = spatial_store.factory
-              ::RGeo::WKRep::WKTParser.new(factory, support_ewkt: true).parse(value) rescue nil
+              factory = spatial_store.factory({})
+              ::RGeo::WKRep::WKTParser.new(factory, support_ewkt: true).parse(value) rescue value
             end
           else
             nil
